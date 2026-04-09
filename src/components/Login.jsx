@@ -128,7 +128,7 @@ export default function Login() {
       </div>
 
       <p style={styles.footer}>
-        &copy; {new Date().getFullYear()} Sammamish Friends Nonprofit
+        &copy; {new Date().getFullYear()} Sammamish Friends
       </p>
     </div>
   );

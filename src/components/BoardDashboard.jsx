@@ -17,7 +17,7 @@ const STATUS_CONFIG = {
 };
 
 export default function BoardDashboard() {
-  const { tasks, currentUser } = useApp();
+  const { tasks, tasksLoading, currentUser } = useApp();
   const [showForm, setShowForm] = useState(false);
   const [filter, setFilter] = useState('All');
 
@@ -86,7 +86,11 @@ export default function BoardDashboard() {
           </div>
         </div>
 
-        {myTasks.length === 0 ? (
+        {tasksLoading ? (
+          <div style={styles.empty}>
+            <p style={styles.emptyText}>Loading tasks…</p>
+          </div>
+        ) : myTasks.length === 0 ? (
           <div style={styles.empty}>
             <div style={styles.emptyIllustration}>
               <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 100 100" fill="#c8e6d0" width="64" height="64">

@@ -1,4 +1,9 @@
 import { createContext, useContext, useState, useEffect } from 'react';
+import {
+  collection, onSnapshot, addDoc, updateDoc, deleteDoc,
+  doc, query, orderBy,
+} from 'firebase/firestore';
+import { db } from '../firebase';
 
 const AppContext = createContext(null);
 
@@ -6,7 +11,6 @@ const USERS = {
   admin: { password: 'itteam123', role: 'it', name: 'IT Team Admin' },
   board: { password: 'sf2024', role: 'board', name: 'Board Member' },
 };
-
 
 export function AppProvider({ children }) {
   const [currentUser, setCurrentUser] = useState(() => {
@@ -18,18 +22,17 @@ export function AppProvider({ children }) {
     }
   });
 
-  const [tasks, setTasks] = useState(() => {
-    try {
-      const saved = localStorage.getItem('sf_tasks_v2');
-      return saved ? JSON.parse(saved) : [];
-    } catch {
-      return SAMPLE_TASKS;
-    }
-  });
+  const [tasks, setTasks] = useState([]);
+  const [tasksLoading, setTasksLoading] = useState(true);
 
   useEffect(() => {
-    localStorage.setItem('sf_tasks_v2', JSON.stringify(tasks));
-  }, [tasks]);
+    const q = query(collection(db, 'tasks'), orderBy('submittedAt', 'desc'));
+    const unsubscribe = onSnapshot(q, (snapshot) => {
+      setTasks(snapshot.docs.map((d) => ({ id: d.id, ...d.data() })));
+      setTasksLoading(false);
+    });
+    return unsubscribe;
+  }, []);
 
   useEffect(() => {
     if (currentUser) {
@@ -50,9 +53,8 @@ export function AppProvider({ children }) {
 
   const logout = () => setCurrentUser(null);
 
-  const addTask = (taskData) => {
-    const newTask = {
-      id: Date.now().toString(),
+  const addTask = async (taskData) => {
+    await addDoc(collection(db, 'tasks'), {
       ...taskData,
       status: 'pending',
       submittedBy: currentUser.username,
@@ -60,47 +62,37 @@ export function AppProvider({ children }) {
       submittedAt: new Date().toISOString(),
       progressNotes: [],
       completedAt: null,
+    });
+  };
+
+  const addProgressNote = async (taskId, noteText) => {
+    const task = tasks.find((t) => t.id === taskId);
+    if (!task) return;
+    const note = {
+      id: Date.now().toString(),
+      text: noteText,
+      author: currentUser.name,
+      date: new Date().toISOString(),
     };
-    setTasks((prev) => [newTask, ...prev]);
+    await updateDoc(doc(db, 'tasks', taskId), {
+      progressNotes: [...task.progressNotes, note],
+      status: task.status === 'pending' ? 'in-progress' : task.status,
+    });
   };
 
-  const addProgressNote = (taskId, noteText) => {
-    setTasks((prev) =>
-      prev.map((task) => {
-        if (task.id !== taskId) return task;
-        const note = {
-          id: Date.now().toString(),
-          text: noteText,
-          author: currentUser.name,
-          date: new Date().toISOString(),
-        };
-        return {
-          ...task,
-          status: task.status === 'pending' ? 'in-progress' : task.status,
-          progressNotes: [...task.progressNotes, note],
-        };
-      })
-    );
+  const completeTask = async (taskId) => {
+    await updateDoc(doc(db, 'tasks', taskId), {
+      status: 'completed',
+      completedAt: new Date().toISOString(),
+    });
   };
 
-  const completeTask = (taskId) => {
-    setTasks((prev) =>
-      prev.map((task) =>
-        task.id === taskId
-          ? { ...task, status: 'completed', completedAt: new Date().toISOString() }
-          : task
-      )
-    );
+  const deleteTask = async (taskId) => {
+    await deleteDoc(doc(db, 'tasks', taskId));
   };
 
-  const deleteTask = (taskId) => {
-    setTasks((prev) => prev.filter((t) => t.id !== taskId));
-  };
-
-  const updateTaskStatus = (taskId, status) => {
-    setTasks((prev) =>
-      prev.map((task) => (task.id === taskId ? { ...task, status } : task))
-    );
+  const updateTaskStatus = async (taskId, status) => {
+    await updateDoc(doc(db, 'tasks', taskId), { status });
   };
 
   return (
@@ -108,6 +100,7 @@ export function AppProvider({ children }) {
       value={{
         currentUser,
         tasks,
+        tasksLoading,
         login,
         logout,
         addTask,

@@ -8,6 +8,7 @@ export default function TaskForm({ onClose }) {
     description: '',
     category: 'General',
     priority: 'medium',
+    requestedCompletionDate: '',
   });
 
   const handleChange = (e) => {
@@ -80,6 +81,18 @@ export default function TaskForm({ onClose }) {
                 <option value="urgent">Urgent</option>
               </select>
             </div>
+          </div>
+
+          <div style={styles.field}>
+            <label style={styles.label}>Requested Completion Date</label>
+            <input
+              style={styles.input}
+              type="date"
+              name="requestedCompletionDate"
+              value={form.requestedCompletionDate}
+              onChange={handleChange}
+              min={new Date().toISOString().split('T')[0]}
+            />
           </div>
 
           <div style={styles.actions}>

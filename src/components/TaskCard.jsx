@@ -107,6 +107,14 @@ export default function TaskCard({ task }) {
               <span style={styles.footerText}>
                 Submitted by <strong>{task.submittedByName}</strong> · {formatDate(task.submittedAt)}
               </span>
+              {task.requestedCompletionDate && (
+                <span style={styles.footerText}>
+                  · Requested by{' '}
+                  <strong>
+                    {new Date(task.requestedCompletionDate + 'T00:00:00').toLocaleDateString('en-US', { month: 'short', day: 'numeric', year: 'numeric' })}
+                  </strong>
+                </span>
+              )}
               {task.completedAt && (
                 <span style={styles.completedText}>
                   · Completed {formatDate(task.completedAt)}
