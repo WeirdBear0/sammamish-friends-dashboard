@@ -72,7 +72,7 @@ export default function BoardDashboard() {
       {/* Task List */}
       <div style={styles.section}>
         <div style={styles.sectionHeader}>
-          <h2 style={styles.sectionTitle}>My Submitted Requests</h2>
+          <h2 style={styles.sectionTitle}>Submitted Requests</h2>
           <div style={styles.filters}>
             {['All', 'Pending', 'In Progress', 'Completed'].map((f) => (
               <button
