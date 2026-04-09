@@ -1,5 +1,6 @@
 import { useState } from 'react';
 import { useApp } from '../context/AppContext';
+import sfLogo from '../assets/sf.png';
 
 const Leaf = ({ style }) => (
   <svg
@@ -53,7 +54,7 @@ export default function Login() {
         {/* Logo */}
         <div style={styles.logoArea}>
           <div style={styles.logoIcon}>
-            <Leaf style={{ width: 32, height: 32, color: '#fff' }} />
+            <img src={sfLogo} alt="Sammamish Friends" style={{ width: '100%', height: '100%', objectFit: 'cover', borderRadius: '14px' }} />
           </div>
           <div>
             <h1 style={styles.orgName}>Sammamish Friends</h1>

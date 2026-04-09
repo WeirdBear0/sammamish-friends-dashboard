@@ -1,11 +1,5 @@
 import { useApp } from '../context/AppContext';
-
-const LeafIcon = () => (
-  <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 100 100" fill="currentColor" width="22" height="22">
-    <path d="M10 90 C10 90 15 45 55 20 C75 8 92 8 92 8 C92 8 92 25 80 45 C65 70 20 75 10 90 Z" />
-    <path d="M10 90 C30 75 50 60 70 30" stroke="rgba(255,255,255,0.4)" strokeWidth="3" fill="none" />
-  </svg>
-);
+import sfLogo from '../assets/sf.png';
 
 const SmallLeaf = () => (
   <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 100 100" fill="currentColor" width="14" height="14">
@@ -33,7 +27,7 @@ export default function Header() {
       <div style={styles.inner}>
         <div style={styles.brand}>
           <div style={styles.logoBox}>
-            <LeafIcon />
+            <img src={sfLogo} alt="Sammamish Friends" style={styles.logoImg} />
           </div>
           <div>
             <span style={styles.brandName}>Sammamish Friends</span>
@@ -105,6 +99,13 @@ const styles = {
     alignItems: 'center',
     justifyContent: 'center',
     flexShrink: 0,
+    overflow: 'hidden',
+  },
+  logoImg: {
+    width: '100%',
+    height: '100%',
+    objectFit: 'cover',
+    borderRadius: '10px',
   },
   brandName: {
     fontWeight: '700',
