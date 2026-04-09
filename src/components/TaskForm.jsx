@@ -3,13 +3,16 @@ import { useApp } from '../context/AppContext';
 
 export default function TaskForm({ onClose }) {
   const { addTask } = useApp();
+  const CATEGORIES = ['Finance', 'Mud Run', 'Sammamish Seniors', 'Passion for Nature', 'Stewards', 'Emerald Necklace', 'Other'];
+
   const [form, setForm] = useState({
     title: '',
     description: '',
-    category: 'General',
-    priority: 'medium',
+    category: 'Finance',
+
     requestedCompletionDate: '',
   });
+  const [customCategory, setCustomCategory] = useState('');
 
   const handleChange = (e) => {
     setForm((prev) => ({ ...prev, [e.target.name]: e.target.value }));
@@ -18,7 +21,8 @@ export default function TaskForm({ onClose }) {
   const handleSubmit = (e) => {
     e.preventDefault();
     if (!form.title.trim() || !form.description.trim()) return;
-    addTask(form);
+    const finalCategory = form.category === 'Other' ? (customCategory.trim() || 'Other') : form.category;
+    addTask({ ...form, category: finalCategory });
     onClose();
   };
 
@@ -63,23 +67,16 @@ export default function TaskForm({ onClose }) {
             <div style={{ ...styles.field, flex: 1 }}>
               <label style={styles.label}>Category</label>
               <select style={styles.input} name="category" value={form.category} onChange={handleChange}>
-                <option>General</option>
-                <option>Infrastructure</option>
-                <option>Software</option>
-                <option>Security</option>
-                <option>Training</option>
-                <option>Website</option>
-                <option>Other</option>
+                {CATEGORIES.map((c) => <option key={c}>{c}</option>)}
               </select>
-            </div>
-            <div style={{ ...styles.field, flex: 1 }}>
-              <label style={styles.label}>Priority</label>
-              <select style={styles.input} name="priority" value={form.priority} onChange={handleChange}>
-                <option value="low">Low</option>
-                <option value="medium">Medium</option>
-                <option value="high">High</option>
-                <option value="urgent">Urgent</option>
-              </select>
+              {form.category === 'Other' && (
+                <input
+                  style={{ ...styles.input, marginTop: '8px' }}
+                  value={customCategory}
+                  onChange={(e) => setCustomCategory(e.target.value)}
+                  placeholder="Specify category…"
+                />
+              )}
             </div>
           </div>
 
