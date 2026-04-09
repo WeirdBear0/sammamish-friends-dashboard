@@ -16,7 +16,6 @@ const Leaf = ({ style }) => (
 
 export default function Login() {
   const { login } = useApp();
-  const [tab, setTab] = useState('board');
   const [username, setUsername] = useState('');
   const [password, setPassword] = useState('');
   const [error, setError] = useState('');
@@ -28,18 +27,6 @@ export default function Login() {
     if (!success) {
       setError('Invalid username or password. Please try again.');
     }
-  };
-
-  const handleTabChange = (newTab) => {
-    setTab(newTab);
-    setUsername('');
-    setPassword('');
-    setError('');
-  };
-
-  const hints = {
-    board: { username: 'board', password: 'sf2024' },
-    it: { username: 'admin', password: 'itteam123' },
   };
 
   return (
@@ -62,28 +49,8 @@ export default function Login() {
           </div>
         </div>
 
-        {/* Tabs */}
-        <div style={styles.tabs}>
-          <button
-            style={{ ...styles.tab, ...(tab === 'board' ? styles.tabActive : {}) }}
-            onClick={() => handleTabChange('board')}
-          >
-            Board Member
-          </button>
-          <button
-            style={{ ...styles.tab, ...(tab === 'it' ? styles.tabActive : {}) }}
-            onClick={() => handleTabChange('it')}
-          >
-            IT Team
-          </button>
-        </div>
-
         <form onSubmit={handleSubmit} style={styles.form}>
-          <p style={styles.loginLabel}>
-            {tab === 'board'
-              ? 'Submit and track IT task requests'
-              : 'Manage tasks, post updates, and mark completions'}
-          </p>
+          <p style={styles.loginLabel}>Submit and track IT task requests</p>
 
           <div style={styles.field}>
             <label style={styles.label}>Username</label>
@@ -92,7 +59,7 @@ export default function Login() {
               type="text"
               value={username}
               onChange={(e) => setUsername(e.target.value)}
-              placeholder={`e.g. ${hints[tab].username}`}
+              placeholder="e.g. board"
               autoComplete="username"
               required
             />
@@ -118,12 +85,8 @@ export default function Login() {
           </button>
 
           <div style={styles.hint}>
-            <span style={styles.hintLabel}>Demo credentials — </span>
-            <span style={styles.hintText}>
-              {tab === 'board'
-                ? 'Username: board / Password: sf2024'
-                : 'Username: admin / Password: itteam123'}
-            </span>
+            <span style={styles.hintLabel}>Credentials — </span>
+            <span style={styles.hintText}>Username: board / Password: sf2024</span>
           </div>
         </form>
       </div>
@@ -187,31 +150,6 @@ const styles = {
     fontSize: '13px',
     color: '#5a8a6a',
     fontWeight: '400',
-  },
-  tabs: {
-    display: 'flex',
-    background: '#f0faf4',
-    borderRadius: '10px',
-    padding: '4px',
-    marginBottom: '24px',
-    gap: '4px',
-  },
-  tab: {
-    flex: 1,
-    padding: '10px',
-    border: 'none',
-    borderRadius: '8px',
-    fontSize: '14px',
-    fontWeight: '500',
-    background: 'transparent',
-    color: '#5a8a6a',
-    transition: 'all 0.2s',
-  },
-  tabActive: {
-    background: '#fff',
-    color: '#1a5c3a',
-    boxShadow: '0 1px 4px rgba(0,0,0,0.12)',
-    fontWeight: '600',
   },
   form: {
     display: 'flex',
