@@ -37,15 +37,15 @@ export default function BoardDashboard() {
     .sort((a, b) => new Date(b.submittedAt) - new Date(a.submittedAt));
 
   return (
-    <div style={styles.page}>
+    <div style={styles.page} className="dash-page">
       {/* Welcome Banner */}
-      <div style={styles.banner}>
+      <div style={styles.banner} className="dash-banner">
         <div style={styles.bannerLeaf}>
           <LeafDecor />
         </div>
         <div style={styles.bannerContent}>
-          <h1 style={styles.bannerTitle}>Welcome, {currentUser.name}</h1>
-          <p style={styles.bannerText}>
+          <h1 style={styles.bannerTitle} className="dash-banner-title">Welcome, {currentUser.name}</h1>
+          <p style={styles.bannerText} className="dash-banner-text">
             Use this portal to submit IT requests and track their progress. The IT team will review your requests and keep you updated.
           </p>
           <button onClick={() => setShowForm(true)} style={styles.newRequestBtn}>

@@ -35,7 +35,7 @@ export default function TaskCard({ task }) {
         <div style={{ ...styles.priorityStrip, background: priority.dot }} />
 
         <div style={styles.body}>
-          <div style={styles.topRow}>
+          <div style={styles.topRow} className="task-top-row">
             <div style={styles.titleGroup}>
               <h3 style={styles.taskTitle}>{task.title}</h3>
               <div style={styles.badges}>
@@ -50,7 +50,7 @@ export default function TaskCard({ task }) {
               </div>
             </div>
 
-            <div style={styles.actions}>
+            <div style={styles.actions} className="task-actions">
               {isIT && task.status !== 'completed' && (
                 <>
                   <button

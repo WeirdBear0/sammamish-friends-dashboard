@@ -41,8 +41,8 @@ export default function ProgressModal({ task, onClose }) {
   const priorityStyle = PRIORITY_COLORS[task.priority] || PRIORITY_COLORS.medium;
 
   return (
-    <div style={styles.overlay} onClick={(e) => e.target === e.currentTarget && onClose()}>
-      <div style={styles.modal}>
+    <div style={styles.overlay} className="modal-overlay" onClick={(e) => e.target === e.currentTarget && onClose()}>
+      <div style={styles.modal} className="modal-box">
         <div style={styles.header}>
           <div>
             <h2 style={styles.title}>{task.title}</h2>
@@ -114,7 +114,7 @@ export default function ProgressModal({ task, onClose }) {
                 Mark task as completed after posting this note
               </label>
             </div>
-            <div style={styles.actions}>
+            <div style={styles.actions} className="modal-actions">
               <button type="button" onClick={onClose} style={styles.cancelBtn}>Cancel</button>
               {task.status !== 'completed' && (
                 <button

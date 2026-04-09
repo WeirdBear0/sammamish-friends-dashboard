@@ -44,7 +44,7 @@ export default function ITDashboard() {
     });
 
   return (
-    <div style={styles.page}>
+    <div style={styles.page} className="dash-page">
       {/* Stats */}
       <div style={styles.statsGrid}>
         <StatCard
@@ -89,15 +89,16 @@ export default function ITDashboard() {
             <h2 style={styles.listTitle}>Task Requests</h2>
           </div>
 
-          <div style={styles.controls}>
+          <div style={styles.controls} className="dash-controls">
             <input
               style={styles.searchInput}
+              className="dash-search"
               type="text"
               placeholder="Search tasks..."
               value={search}
               onChange={(e) => setSearch(e.target.value)}
             />
-            <div style={styles.filterTabs}>
+            <div style={styles.filterTabs} className="dash-filter-tabs">
               {FILTERS.map((f) => (
                 <button
                   key={f}

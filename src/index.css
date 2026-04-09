@@ -19,3 +19,28 @@ button {
 input, textarea, select {
   font-family: inherit;
 }
+
+/* ── Mobile responsiveness ── */
+@media (max-width: 600px) {
+
+  /* Dashboards */
+  .dash-page { padding: 14px 12px 40px !important; }
+  .dash-banner { padding: 20px !important; }
+  .dash-banner-title { font-size: 18px !important; }
+  .dash-banner-text { font-size: 13px !important; }
+
+  /* Search + filter controls */
+  .dash-controls { flex-direction: column; align-items: stretch !important; }
+  .dash-search { width: 100% !important; }
+  .dash-filter-tabs { overflow-x: auto; flex-wrap: nowrap !important; }
+
+  /* Task card */
+  .task-top-row { flex-direction: column !important; align-items: flex-start !important; }
+  .task-actions { flex-wrap: wrap; }
+
+  /* Modals */
+  .modal-overlay { padding: 12px !important; align-items: flex-end !important; }
+  .modal-box { border-radius: 16px 16px 0 0 !important; max-height: 92vh !important; }
+  .modal-actions { flex-wrap: wrap; }
+  .modal-actions > * { flex: 1; min-width: 0; }
+}

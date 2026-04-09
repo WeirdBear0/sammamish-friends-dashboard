@@ -27,8 +27,8 @@ export default function TaskForm({ onClose }) {
   };
 
   return (
-    <div style={styles.overlay} onClick={(e) => e.target === e.currentTarget && onClose()}>
-      <div style={styles.modal}>
+    <div style={styles.overlay} className="modal-overlay" onClick={(e) => e.target === e.currentTarget && onClose()}>
+      <div style={styles.modal} className="modal-box">
         <div style={styles.header}>
           <h2 style={styles.title}>Submit a Task Request</h2>
           <button onClick={onClose} style={styles.closeBtn} aria-label="Close">✕</button>
@@ -92,7 +92,7 @@ export default function TaskForm({ onClose }) {
             />
           </div>
 
-          <div style={styles.actions}>
+          <div style={styles.actions} className="modal-actions">
             <button type="button" onClick={onClose} style={styles.cancelBtn}>Cancel</button>
             <button type="submit" style={styles.submitBtn}>Submit Request</button>
           </div>
