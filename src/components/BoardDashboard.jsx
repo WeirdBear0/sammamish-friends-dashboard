@@ -17,7 +17,7 @@ const STATUS_CONFIG = {
 };
 
 export default function BoardDashboard() {
-  const { tasks, tasksLoading, currentUser } = useApp();
+  const { tasks, tasksLoading, tasksError, currentUser } = useApp();
   const [showForm, setShowForm] = useState(false);
   const [filter, setFilter] = useState('All');
 
@@ -89,6 +89,11 @@ export default function BoardDashboard() {
         {tasksLoading ? (
           <div style={styles.empty}>
             <p style={styles.emptyText}>Loading tasks…</p>
+          </div>
+        ) : tasksError ? (
+          <div style={styles.empty}>
+            <p style={styles.emptyTitle}>Failed to load tasks</p>
+            <p style={styles.emptyText}>{tasksError}</p>
           </div>
         ) : myTasks.length === 0 ? (
           <div style={styles.empty}>

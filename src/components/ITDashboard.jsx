@@ -13,7 +13,7 @@ const LeafAccent = () => (
 );
 
 export default function ITDashboard() {
-  const { tasks, tasksLoading } = useApp();
+  const { tasks, tasksLoading, tasksError } = useApp();
   const [filter, setFilter] = useState('All');
   const [search, setSearch] = useState('');
 
@@ -118,6 +118,11 @@ export default function ITDashboard() {
         {tasksLoading ? (
           <div style={styles.empty}>
             <p style={styles.emptyText}>Loading tasks…</p>
+          </div>
+        ) : tasksError ? (
+          <div style={styles.empty}>
+            <p style={styles.emptyTitle}>Failed to load tasks</p>
+            <p style={styles.emptyText}>{tasksError}</p>
           </div>
         ) : filtered.length === 0 ? (
           <div style={styles.empty}>

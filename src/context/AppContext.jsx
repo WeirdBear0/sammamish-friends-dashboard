@@ -24,13 +24,23 @@ export function AppProvider({ children }) {
 
   const [tasks, setTasks] = useState([]);
   const [tasksLoading, setTasksLoading] = useState(true);
+  const [tasksError, setTasksError] = useState(null);
 
   useEffect(() => {
     const q = query(collection(db, 'tasks'), orderBy('submittedAt', 'desc'));
-    const unsubscribe = onSnapshot(q, (snapshot) => {
-      setTasks(snapshot.docs.map((d) => ({ id: d.id, ...d.data() })));
-      setTasksLoading(false);
-    });
+    const unsubscribe = onSnapshot(
+      q,
+      (snapshot) => {
+        setTasks(snapshot.docs.map((d) => ({ id: d.id, ...d.data() })));
+        setTasksLoading(false);
+        setTasksError(null);
+      },
+      (error) => {
+        console.error('Firestore error:', error);
+        setTasksError(error.message);
+        setTasksLoading(false);
+      }
+    );
     return unsubscribe;
   }, []);
 
@@ -101,6 +111,7 @@ export function AppProvider({ children }) {
         currentUser,
         tasks,
         tasksLoading,
+        tasksError,
         login,
         logout,
         addTask,
